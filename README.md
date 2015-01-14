@@ -1,4 +1,4 @@
-# tumbler `0.0.1`
+# tumbler `0.0.0`
 
 Flask workflow
 
@@ -62,5 +62,5 @@ application = Web(
 ```
 
 ```bash
-uwsgi --http-socket 127.0.0.1:8080 --chdir /home/foobar/myproject/ --wsgi-file wsgi.py --master --processes 4 --threads 2 --stats 127.0.0.1:9191
+uwsgi --http-socket 127.0.0.0:8080 --chdir /home/foobar/myproject/ --wsgi-file wsgi.py --master --processes 4 --threads 2 --stats 127.0.0.0:9191
 ```
