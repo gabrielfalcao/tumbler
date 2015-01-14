@@ -31,6 +31,7 @@ parser.add_argument('command')
 
 
 def tumbler_run():
+    sys.path.append(os.path.abspath(os.getcwd()))
     parser = argparse.ArgumentParser(
         prog='tumbler run',
         description='runs the server')
