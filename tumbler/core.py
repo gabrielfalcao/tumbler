@@ -67,6 +67,7 @@ class Web(object):
         self.assets = None
         self.commands_manager = None
         self.flask_app = Flask(__name__, *args, **kwargs)
+        self.collect_modules()
 
     def enable_error_handlers(self):
         handler_for = ErrorHandlers(self.flask_app)
@@ -89,7 +90,6 @@ class Web(object):
             self.flask_app.register_blueprint(blueprint)
 
     def run(self, *args, **kw):
-        self.collect_modules()
         self.enable_error_handlers()
         self.flask_app.run(*args, **kw)
 

@@ -62,5 +62,5 @@ application = Web(
 ```
 
 ```bash
-uwsgi --http-socket 127.0.0.6:8080 --chdir /home/foobar/myproject/ --wsgi-file wsgi.py --master --processes 4 --threads 2 --stats 127.0.0.6:9191
+uwsgi --http-socket 127.0.0.0:8080 --chdir /home/foobar/myproject/ --wsgi-file wsgi.py --master --processes 4 --threads 2 --stats 127.0.0.6:9191
 ```

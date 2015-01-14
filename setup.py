@@ -44,7 +44,7 @@ local_file = lambda *f: \
     open(os.path.join(os.path.dirname(__file__), *f)).read()
 
 
-install_requires = ['coloredlogs', 'flask', 'ipdb', 'requests', 'nose', 'sure', 'mock', 'rednose']
+install_requires = ['coloredlogs', 'flask', 'ipdb', 'requests', 'nose', 'sure', 'mock', 'rednose', 'plant']
 
 
 if __name__ == '__main__':
