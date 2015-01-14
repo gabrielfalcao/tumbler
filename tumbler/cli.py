@@ -53,7 +53,7 @@ def tumbler_run():
     )
     for cname in args.controller:
         name, exc = os.path.splitext(cname)
-        importlib.import_module(name)
+        importlib.import_module('.{0}'.format(name))
 
     server.run(port=args.port, host=args.host)
 

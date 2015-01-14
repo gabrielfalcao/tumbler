@@ -29,7 +29,6 @@ class Module(object):
 
     def make_decorator(self, method, regex):
         def decorator(func):
-            print method, regex, func
             self.handlers[method, regex] = func
             return func
 
