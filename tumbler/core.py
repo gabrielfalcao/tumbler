@@ -16,6 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from collections import OrderedDict
+import traceback
 from flask import Flask, Blueprint
 
 MODULES = OrderedDict()
@@ -100,4 +101,4 @@ class ErrorHandlers(object):
     def internal_error(self, exception):
         self.flask_app.logger.exception(
             "The Flask application suffered an internal error")
-        return render_template('500.html', exception=exception), 500
+        return traceback.format_exc(exception), 500
