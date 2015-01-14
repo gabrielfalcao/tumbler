@@ -47,15 +47,15 @@ def tumbler_run():
     parser.add_argument('--host', help='the host name', default='localhost')
     args = parser.parse_args(sys.argv[2:])
 
+    for cname in args.controller:
+        name, exc = os.path.splitext(cname)
+        importlib.import_module(name.replace(os.sep, '.'))
+
     server = Web(
         template_folder=args.templates_path,
         static_folder=args.static_path,
         static_url_path=args.static_url,
     )
-    for cname in args.controller:
-        name, exc = os.path.splitext(cname)
-        importlib.import_module(name.replace(os.sep, '.'))
-
     server.run(port=args.port, host=args.host)
 
 
