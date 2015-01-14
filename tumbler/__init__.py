@@ -5,7 +5,7 @@ from flask import Response, request
 
 from tumbler.core import Registry
 
-version = '0.0.0'
+version = '0.0.1'
 tumbler = Registry()
 
 
