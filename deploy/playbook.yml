@@ -31,7 +31,7 @@
     - shell: 'echo "Step 1: get into the vagrant box with: vagrant ssh"'
       register: step1
 
-    - shell: 'echo "Step 2: run the server with: docker run tumbler"'
+    - shell: 'echo "Step 2: run the server with: docker run --net=host tumbler"'
       register: step2
 
     - shell: 'echo "Step 3: open your browser at http://localhost:5000"'
