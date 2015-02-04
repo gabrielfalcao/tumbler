@@ -23,24 +23,11 @@
       user: name=vagrant groups=docker,adm append=yes
 
     - name: build docker image
-      command: >
+      command: |
         docker build -t tumbler .
       args:
         chdir: /sandbox
 
-    - shell: 'echo "Step 1: get into the vagrant box with: vagrant ssh"'
-      register: step1
-
-    - shell: 'echo "Step 2: run the server with: docker run --net=host tumbler"'
-      register: step2
-
-    - shell: 'echo "Step 3: open your browser at http://localhost:5000"'
-      register: step3
-
-    - shell: 'echo "Step 4: disco!"'
-      register: step4
-
-    - debug: var=step1.stdout
-    - debug: var=step2.stdout
-    - debug: var=step3.stdout
-    - debug: var=step4.stdout
+    - name: run the server
+      command: |
+        docker run -d --net=host tumbler
