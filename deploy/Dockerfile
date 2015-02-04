@@ -12,4 +12,4 @@ WORKDIR /tumbler
 EXPOSE  5000
 
 # Run
-CMD ["tumbler", "run", "--port", "5000", "example/routes.py"]
+CMD ["tumbler", "run", "--host", "0.0.0.0", "--port", "5000", "example/routes.py"]
