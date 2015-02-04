@@ -69,4 +69,7 @@ if __name__ == '__main__':
         classifiers=[
             'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
         ],
+        package_data={
+            'tumbler': ['requirements.txt'],
+        },
     )
