@@ -60,7 +60,7 @@ def tumbler_run():
                         nargs="+", help='the path to the controllers file')
 
     parser.add_argument('--debug', action='store_true', default=False)
-    parser.add_argument('-t', '--templates-path', default='templates')
+    parser.add_argument('-t', '--templates-path', default=None)
     parser.add_argument('-s', '--static-path', default='static')
     parser.add_argument('-u', '--static-url', default='/assets')
     parser.add_argument('-p', '--port', type=int, help='the port number', default=8000)
@@ -68,11 +68,23 @@ def tumbler_run():
     args = parser.parse_args(sys.argv[2:])
 
     for cname in args.controller:
+        if not os.path.exists(cname):
+            print cname, "does not exist"
+        elif os.path.isdir(cname):
+            print cname, "is a directory!"
+            raise SystemExit(1)
+
         name, exc = os.path.splitext(cname)
+
         importlib.import_module(name.replace(os.sep, '.'))
 
+    if not args.templates_path:
+        templates_path = os.path.abspath(os.path.dirname(args.controller[0]))
+    else:
+        templates_path = os.args.templates_path
+
     server = Web(
-        template_folder=args.templates_path,
+        template_folder=templates_path,
         static_folder=args.static_path,
         static_url_path=args.static_url,
     )
@@ -120,6 +132,9 @@ def main():
         'unit': tumbler_unit,
         'functional': tumbler_functional,
     }
+    if args.command not in HANDLERS:
+        parser.print_help()
+        raise SystemExit(1)
     HANDLERS[args.command]()
 
 

@@ -14,12 +14,24 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-from collections import OrderedDict
+import os
 import traceback
+from collections import OrderedDict
+from sqlalchemy import Column
 from flask import Flask, Blueprint
+from flask.ext import sqlalchemy
+from tumbler.models import MODELS, Model, ORM
+from sqlalchemy.ext.declarative import declarative_base
 
 MODULES = OrderedDict()
+
+
+class SQLAlchemy(sqlalchemy.SQLAlchemy):
+    def make_declarative_base(self):
+        base = declarative_base(cls=Model, name='Model',
+                                metaclass=ORM)
+        base.query = sqlalchemy._QueryProperty(self)
+        return base
 
 
 class Module(object):
@@ -67,7 +79,19 @@ class Web(object):
         self.assets = None
         self.commands_manager = None
         self.flask_app = Flask(__name__, *args, **kwargs)
+        self.flask_app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI') or 'sqlite://'
         self.collect_modules()
+        self.db = SQLAlchemy(self.flask_app)
+
+    def prepare_models(self):
+        for name, ScopedModel in MODELS.items():
+            attributes = {'__tablename__': ScopedModel.__tablename__}
+            columns = dict([(k, v) for k, v in ScopedModel.__dict__.items() if isinstance(v, Column)])
+            attributes['__columns__'] = columns
+            attributes.update(columns)
+            ScopedModel.Table = type(name, (self.db.Model,), attributes)
+            ScopedModel.__session__ = self.db.session
+            ScopedModel.__columns__ = columns
 
     def enable_error_handlers(self):
         handler_for = ErrorHandlers(self.flask_app)
@@ -91,6 +115,8 @@ class Web(object):
 
     def run(self, *args, **kw):
         self.enable_error_handlers()
+        self.prepare_models()
+        self.db.create_all()
         self.flask_app.run(*args, **kw)
 
 
@@ -101,4 +127,5 @@ class ErrorHandlers(object):
     def internal_error(self, exception):
         self.flask_app.logger.exception(
             "The Flask application suffered an internal error")
-        return traceback.format_exc(exception), 500
+
+        return traceback.format_exc(exception), 500, {'content-type': 'text/plain'}
