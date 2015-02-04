@@ -1,0 +1,28 @@
+---
+- hosts: all
+  sudo: yes
+
+  vars:
+    docker_version: 1.3.3
+
+  tasks:
+    - name: add docker repository key
+      apt_key: url=https://get.docker.io/gpg state=present
+
+    - name: add docker repository
+      apt_repository: >
+        repo="deb http://get.docker.io/ubuntu docker main" state=present
+
+    - name: install docker and other packages
+      apt: pkg={{ item }} state=present
+      with_items:
+        - lxc-docker-{{ docker_version }}
+        - linux-image-extra-virtual
+
+    - name: add vagrant user to docker and adm groups
+      user: name=vagrant groups=docker,adm append=yes
+
+    - name: create buildbot virtualenv
+      command: >
+        docker build -t vagrant/tumbler:latest /sandbox
+        docker run vagrant/tumbler
