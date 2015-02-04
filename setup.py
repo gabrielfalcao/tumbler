@@ -44,8 +44,23 @@ local_file = lambda *f: \
     open(os.path.join(os.path.dirname(__file__), *f)).read()
 
 
-install_requires = local_file('requirements.txt').splitlines()
-print install_requires
+install_requires = [
+    'Flask==0.10.1',
+    'Flask-SQLAlchemy==2.0',
+    'Flask-Assets==0.10',
+    'Jinja2==2.7.3',
+    'MarkupSafe==0.23',
+    'SQLAlchemy==0.9.8',
+    'coloredlogs==0.8',
+    'ipdb==0.8',
+    'mock==1.0.1',
+    'nose==1.3.4',
+    'plant==0.1.1',
+    'rednose==0.4.1',
+    'requests==2.5.1',
+    'six==1.9.0',
+    'sure==1.2.9',
+]
 
 
 if __name__ == '__main__':
