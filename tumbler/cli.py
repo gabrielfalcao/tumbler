@@ -21,13 +21,34 @@ import argparse
 import coloredlogs
 import importlib
 from tumbler.core import Web
-
+from webassets import Environment as AssetsEnvironment
+from webassets.script import CommandLineEnvironment
 
 parser = argparse.ArgumentParser(prog='Tumbler')
 parser.add_argument(
     '--log-level',
     choices=['DEBUG', 'INFO', 'WARNING', 'ERROR'], default='DEBUG')
 parser.add_argument('command')
+
+
+def tumbler_assets():
+    parser = argparse.ArgumentParser(
+        prog='tumbler assets',
+        description='builds the assets from a given python file')
+
+    parser.add_argument('--debug', action='store_true', default=False)
+    parser.add_argument('-f', '--definition-file', default='assets.py')
+    parser.add_argument('-s', '--static-path', default='static')
+    args = parser.parse_args(sys.argv[2:])
+    assets_env = AssetsEnvironment(args.static_path)
+
+    # Setup a logger
+    log = logging.getLogger('webassets')
+    log.addHandler(logging.StreamHandler())
+    log.setLevel(logging.DEBUG)
+
+    cmdenv = CommandLineEnvironment(assets_env, log)
+    cmdenv.build()
 
 
 def tumbler_run():
@@ -39,12 +60,11 @@ def tumbler_run():
                         nargs="+", help='the path to the controllers file')
 
     parser.add_argument('--debug', action='store_true', default=False)
-    parser.add_argument('--templates-path', default='templates')
-    parser.add_argument('--static-path', default='static')
-    parser.add_argument('--static-url', default='/assets')
-    parser.add_argument('--port', type=int, help='the port number',
-                        default=8000)
-    parser.add_argument('--host', help='the host name', default='localhost')
+    parser.add_argument('-t', '--templates-path', default='templates')
+    parser.add_argument('-s', '--static-path', default='static')
+    parser.add_argument('-u', '--static-url', default='/assets')
+    parser.add_argument('-p', '--port', type=int, help='the port number', default=8000)
+    parser.add_argument('-H', '--host', help='the host name', default='localhost')
     args = parser.parse_args(sys.argv[2:])
 
     for cname in args.controller:
