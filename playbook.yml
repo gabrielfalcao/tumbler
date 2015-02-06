@@ -13,6 +13,10 @@
       apt_repository: >
         repo="deb http://get.docker.io/ubuntu docker main" state=present
 
+    - name: ensure that apt is ok
+      command: |
+        dpkg --configure -a
+
     - name: install docker and other packages
       apt: pkg={{ item }} state=present
       with_items:
