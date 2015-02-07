@@ -53,6 +53,7 @@ install_requires = [
     'SQLAlchemy==0.9.8',
     'coloredlogs==0.8',
     'ipdb==0.8',
+    'freezegun==0.2.8',
     'mock==1.0.1',
     'nose==1.3.4',
     'plant==0.1.1',
