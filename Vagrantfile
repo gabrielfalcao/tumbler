@@ -9,6 +9,12 @@ Vagrant.configure("2") do |config|
 
     c.vm.provision :ansible do |ansible|
       ansible.playbook = "playbook.yml"
+      ansible.verbose = 'vvvv'
+      ansible.extra_vars = {
+            ansible_ssh_user: 'vagrant',
+            ansible_connection: 'ssh',
+            ansible_ssh_args: '-o ForwardAgent=yes',
+        }
     end
   end
 end
