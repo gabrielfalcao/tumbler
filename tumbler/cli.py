@@ -81,7 +81,7 @@ def tumbler_run():
     if not args.templates_path:
         templates_path = os.path.abspath(os.path.dirname(args.controller[0]))
     else:
-        templates_path = os.args.templates_path
+        templates_path = args.templates_path
 
     server = Web(
         template_folder=templates_path,
