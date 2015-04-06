@@ -4,7 +4,7 @@
 # flake8: noqa
 import os
 from plant import Node
-from angularjs import routes
+from nosql import routes
 
 from tumbler.core import Web
 
@@ -15,6 +15,7 @@ application = Web(
     template_folder=root_node.join('templates'),
     static_folder=root_node.join('static'),
     static_url_path='/assets',
+    use_sqlalchemy=False,
 )
 
 if __name__ == '__main__':

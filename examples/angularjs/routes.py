@@ -7,7 +7,7 @@ from __future__ import unicode_literals
 from tumbler import json_response, tumbler
 from flask import render_template, request
 
-from example.models import Person
+from angularjs.models import Person
 
 web = tumbler.module(__name__)
 

@@ -1,7 +1,7 @@
 all: install_deps test
 
-export PYTHONPATH := ${PWD}:${PYTHONPATH}
-
+PYTHONPATH := $(shell pwd):${PYTHONPATH}
+export PYTHONPATH
 
 install_deps:
 	@python setup.py develop
@@ -17,4 +17,4 @@ release:
 	@python setup.py sdist register upload
 
 run:
-	@PYTHONPATH=`pwd` python tumbler/cli.py run example/routes.py
+	cd examples; python ../tumbler/cli.py run nosql/routes.py

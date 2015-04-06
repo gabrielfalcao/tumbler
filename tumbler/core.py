@@ -18,7 +18,7 @@ import os
 import traceback
 from collections import OrderedDict
 from sqlalchemy import Column
-from flask import Flask, Blueprint
+from flask import Flask, Blueprint, Response
 from flask.ext import sqlalchemy
 from tumbler.models import MODELS, Model, ORM
 from sqlalchemy.ext.declarative import declarative_base
@@ -74,24 +74,24 @@ class Registry(object):
         return Module(name)
 
 
+class Tumbler(Flask):
+    def handle_exception(self, e):
+        tb = traceback.format_exc(e)
+        self.logger.error(tb)
+        return Response('error', status=500)
+
+
 class Web(object):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, use_sqlalchemy=True, *args, **kwargs):
         self.assets = None
         self.commands_manager = None
         self.flask_app = Flask(__name__, *args, **kwargs)
-        self.flask_app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI') or 'sqlite://'
-        self.collect_modules()
-        self.db = SQLAlchemy(self.flask_app)
+        self.use_sqlalchemy = use_sqlalchemy
+        if use_sqlalchemy:
+            self.flask_app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI') or 'sqlite://'
+            self.db = SQLAlchemy(self.flask_app)
 
-    def prepare_models(self):
-        for name, ScopedModel in MODELS.items():
-            attributes = {'__tablename__': ScopedModel.__tablename__}
-            columns = dict([(k, v) for k, v in ScopedModel.__dict__.items() if isinstance(v, Column)])
-            attributes['__columns__'] = columns
-            attributes.update(columns)
-            ScopedModel.Table = type(name, (self.db.Model,), attributes)
-            ScopedModel.__session__ = self.db.session
-            ScopedModel.__columns__ = columns
+        self.collect_modules()
 
     def enable_error_handlers(self):
         handler_for = ErrorHandlers(self.flask_app)
@@ -113,10 +113,26 @@ class Web(object):
                 blueprint.add_url_rule(regex, methods=[method], view_func=func)
             self.flask_app.register_blueprint(blueprint)
 
+    def prepare_models(self):
+        for name, ScopedModel in MODELS.items():
+            attributes = {
+                '__tablename__': ScopedModel.__tablename__
+            }
+            columns = dict([(k, v) for k, v in ScopedModel.__dict__.items() if isinstance(v, Column)])
+
+            attributes['__columns__'] = columns
+            attributes.update(columns)
+
+            ScopedModel.Table = type(name, (self.db.Model,), attributes)
+            ScopedModel.__session__ = self.db.session
+            ScopedModel.__columns__ = columns
+
     def run(self, *args, **kw):
         self.enable_error_handlers()
-        self.prepare_models()
-        self.db.create_all()
+        if self.use_sqlalchemy:
+            self.prepare_models()
+            self.db.create_all()
+
         self.flask_app.run(*args, **kw)
 
 

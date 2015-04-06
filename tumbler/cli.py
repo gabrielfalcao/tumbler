@@ -60,6 +60,7 @@ def tumbler_run():
                         nargs="+", help='the path to the controllers file')
 
     parser.add_argument('--debug', action='store_true', default=False)
+    parser.add_argument('-q', '--nosql', action='store_true', default=False)
     parser.add_argument('-t', '--templates-path', default=None)
     parser.add_argument('-s', '--static-path', default='static')
     parser.add_argument('-u', '--static-url', default='/assets')
@@ -87,6 +88,7 @@ def tumbler_run():
         template_folder=templates_path,
         static_folder=args.static_path,
         static_url_path=args.static_url,
+        use_sqlalchemy=not args.nosql,
     )
     server.run(port=args.port, host=args.host)
 
@@ -118,6 +120,17 @@ def tumbler_unit():
 
 def tumbler_functional():
     tumbler_test('functional')
+
+
+def tumbler_dependencies():
+    deps = [
+        'Flask-SQLAlchemy==2.0',
+        'SQLAlchemy==0.9.8',
+        'ipdb==0.8',
+        'freezegun==0.2.8',
+        'agile==1.1.0',
+    ]
+    os.system('pip install {0}'.format(" ".join(deps)))
 
 
 def main():

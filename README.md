@@ -41,6 +41,7 @@ tumbler run foo.py --host=0.0.14.0 --port=8080
 ## 4. unit and functional tests
 
 ```bash
+tumbler dependencies  # will install local environment dependencies
 tumbler unit
 tumbler functional
 ```
@@ -58,6 +59,7 @@ application = Web(
     static_folder='/srv/static',
     static_url_path='/assets',
     templates_folder='/srv/templates',
+    use_sqlalchemy=False  # or true if you're using a SQL db
 )
 ```
 
