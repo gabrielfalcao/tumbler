@@ -1,4 +1,4 @@
-# tumbler `0.0.15`
+# tumbler `0.0.16`
 
 Flask workflow
 
@@ -34,7 +34,7 @@ def api():
 ```bash
 tumbler run foo.py
 tumbler run foo.py --port=3000
-tumbler run foo.py --host=0.0.15.0 --port=8080
+tumbler run foo.py --host=0.0.16.0 --port=8080
 ```
 
 
@@ -64,5 +64,5 @@ application = Web(
 ```
 
 ```bash
-uwsgi --http-socket 127.0.0.0.15080 --chdir /home/foobar/myproject/ --wsgi-file wsgi.py --master --processes 4 --threads 2 --stats 127.0.0.15:9191
+uwsgi --http-socket 127.0.0.0.16080 --chdir /home/foobar/myproject/ --wsgi-file wsgi.py --master --processes 4 --threads 2 --stats 127.0.0.16:9191
 ```
