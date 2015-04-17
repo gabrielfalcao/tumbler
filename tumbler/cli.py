@@ -144,6 +144,7 @@ def main():
         'shell': tumbler_shell,
         'unit': tumbler_unit,
         'functional': tumbler_functional,
+        'assets': tumbler_assets,
     }
     if args.command not in HANDLERS:
         parser.print_help()
