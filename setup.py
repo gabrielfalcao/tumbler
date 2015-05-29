@@ -49,7 +49,7 @@ install_requires = [
     'Flask-Assets==0.10',
     'Jinja2==2.7.3',
     'MarkupSafe==0.23',
-    'coloredlogs==0.8',
+    'coloredlogs==1.0',
     'plant==0.1.1',
     'requests==2.5.1',
 ]
