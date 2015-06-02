@@ -98,6 +98,10 @@ With that in mind, writing *functional* tests for your controllers can be done l
 # wsgi.py
 
 import foo
+
+# importing your routes is enough for tumbler to find them in memory
+# and load up your web application
+
 from tumbler.core import Web
 
 application = Web(
