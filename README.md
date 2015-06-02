@@ -83,6 +83,14 @@ tumbler functional
 1. [a functional test](https://github.com/gabrielfalcao/tumbler/blob/master/examples/tdd/tests/functional/test_users.py)
 2. [a simple angularjs-based clock](https://github.com/gabrielfalcao/tumbler/tree/master/examples/nosql)
 
+**7** - Learn more about testing flask
+
+*Tumbler* is just a nice wrapper around Flask, giving you a test runner and a few other utilities.
+It tries to help you with tedious tasks that you might need to perform in your flask apps while trying to keep your web stack as thin as possible.
+
+With that in mind, writing *functional* tests for your controllers can be done like in the [flask official documentation](http://flask.pocoo.org/docs/0.10/testing/)
+
+
 ## 5. deploy
 
 ```python
