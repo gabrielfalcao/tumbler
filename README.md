@@ -40,11 +40,48 @@ tumbler run foo.py --host=0.0.17.0 --port=8080
 
 ## 4. unit and functional tests
 
+
+simple steps:
+
+**1** - On the root of your project folder create the folder: `tests/unit` and `tests/functional`:
+
+```bash
+mkdir -p tests/{unit,functional}
+```
+
+**2** - Create a `__init__.py` file inside of all the directories
+
+
+```bash
+touch tests/{unit,functional,}/__init__.py
+```
+
+**3** - To take advantage of "[sure's](http://falcao.it/sure)" syntax,
+  import sure in the main __init__ file of each test folder.
+
+```bash
+printf 'import sure\nsure\n' > tests/unit/__init__.py
+printf 'import sure\nsure\n' > tests/functional/__init__.py
+```
+
+**4** - Install test dependencies
+
 ```bash
 tumbler dependencies  # will install local environment dependencies
+```
+
+
+**5** - Run your tests!
+
+```bash
 tumbler unit
 tumbler functional
 ```
+
+**6** - Browse the examples
+
+1. [a functional test](https://github.com/gabrielfalcao/tumbler/blob/master/examples/tdd/tests/functional/test_users.py)
+2. [a simple angularjs-based clock](https://github.com/gabrielfalcao/tumbler/tree/master/examples/nosql)
 
 ## 5. deploy
 
