@@ -52,6 +52,7 @@ install_requires = [
     'coloredlogs==1.0',
     'plant==0.1.1',
     'requests==2.5.1',
+    'Flask-SQLAlchemy==2.0',
 ]
 
 
