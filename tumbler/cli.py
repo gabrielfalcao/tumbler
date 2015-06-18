@@ -133,19 +133,22 @@ def tumbler_dependencies():
     os.system('pip install {0}'.format(" ".join(deps)))
 
 
+HANDLERS = {
+    'run': tumbler_run,
+    'shell': tumbler_shell,
+    'unit': tumbler_unit,
+    'functional': tumbler_functional,
+    'assets': tumbler_assets,
+}
+
+
 def main():
     args = parser.parse_args(sys.argv[1:2])
 
-    log_level = getattr(logging, args.log_level, 'INFO')
+    log_level = getattr(logging, args.log_level, 'DEBUG')
+    logging.getLogger().setLevel(log_level)
     coloredlogs.install(level=log_level)
 
-    HANDLERS = {
-        'run': tumbler_run,
-        'shell': tumbler_shell,
-        'unit': tumbler_unit,
-        'functional': tumbler_functional,
-        'assets': tumbler_assets,
-    }
     if args.command not in HANDLERS:
         parser.print_help()
         raise SystemExit(1)
