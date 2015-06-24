@@ -45,14 +45,14 @@ local_file = lambda *f: \
 
 
 install_requires = [
-    'Flask==0.10.1',
-    'Flask-Assets==0.10',
-    'Jinja2==2.7.3',
-    'MarkupSafe==0.23',
-    'coloredlogs==1.0',
-    'plant==0.1.1',
-    'requests==2.5.1',
-    'Flask-SQLAlchemy==2.0',
+    'Flask>=0.10.1',
+    'Flask-Assets>=0.10',
+    'Jinja2>=2.7.3',
+    'MarkupSafe>=0.23',
+    'coloredlogs>=1.0.1',
+    'plant>=0.1.1',
+    'requests>=2.5.1',
+    'Flask-SQLAlchemy>=2.0',
 ]
 
 
